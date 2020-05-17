@@ -1,6 +1,6 @@
 import {tuple, Tuple} from "./tuples";
 
-interface Matrix {
+export interface Matrix {
     dim: number;
     data: Array<number>
 }
