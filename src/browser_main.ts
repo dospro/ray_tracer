@@ -1,6 +1,9 @@
-import {color, mult, normalize, point, sum, Tuple, vector} from "./features/tuples";
+import {color, mult, normalize, point, sub, sum, Tuple, vector} from "./features/tuples";
 import {rotation_z, translation} from "./features/transformations";
 import {matrix_mult, matrix_mult_tuple} from "./features/matrices";
+import {intersect, sphere} from "./features/spheres";
+import {ray} from "./features/rays";
+import {hit} from "./features/interesctions";
 
 
 interface Projectile {
@@ -61,8 +64,42 @@ function clockExample(canvasElement: any) {
     }
 }
 
+function circleExample(canvasElement: any) {
+    const context = canvasElement.getContext('2d');
+    const col = color(1, 0, 0);
+
+    const shape = sphere();
+    shape.transform = translation(0, 0, 0);
+
+    const ray_origin = point(0, 0, -5);
+    const wall_z = 10;
+    const wall_size = 7.0;
+
+    const pixel_size = wall_size / 800;
+    const half = wall_size / 2;
+
+    for (let y = 0; y < 800; y++) {
+        const world_y = half - pixel_size * y;
+        for (let x = 0; x < 800; x++) {
+            const world_x = -half + pixel_size * x;
+            const position = point(world_x, world_y, wall_z);
+            const r = ray(ray_origin, normalize(sub(position, ray_origin)));
+            const xs = intersect(shape, r);
+
+            if (hit(xs)) {
+                context.fillStyle = "red";
+                context.fillRect(x, y, 1, 1);
+            } else {
+                context.fillStyle = "black";
+                context.fillRect(x, y, 1, 1);
+            }
+        }
+    }
+}
+
 function main(canvasElement: any) {
-    clockExample(canvasElement);
+    //clockExample(canvasElement);
+    circleExample(canvasElement);
 }
 
 declare global {
