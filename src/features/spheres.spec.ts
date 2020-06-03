@@ -1,6 +1,8 @@
 import {ray} from "./rays";
 import {point, vector} from "./tuples";
 import {intersect, sphere} from "./spheres";
+import {identity_matrix} from "./matrices";
+import {scaling, translation} from "./transformations";
 
 test('A ray intersect a sphere at two points', () => {
     const r = ray(point(0, 0, -5), vector(0, 0, 1));
@@ -60,3 +62,35 @@ test('Intersect sets the object on the intersection', () => {
     expect(xs[1].object).toBe(s);
 });
 
+
+describe('Sphere transformations', () => {
+    test('A spheres default transformation', () => {
+        const s = sphere();
+        expect(s.transform).toStrictEqual(identity_matrix(4));
+    });
+
+    test('Changing a spheres transformation', () => {
+        const s = sphere();
+        const t = translation(2, 3, 4);
+        s.transform = t;
+        expect(s.transform).toStrictEqual(t);
+    });
+
+    test('Intersecting a scaled sphere with a ray', () => {
+        const r = ray(point(0, 0, -5), vector(0, 0, 1));
+        const s = sphere();
+        s.transform = scaling(2, 2, 2);
+        const xs = intersect(s, r);
+        expect(xs.length).toEqual(2);
+        expect(xs[0].t).toEqual(3);
+        expect(xs[1].t).toEqual(7);
+    });
+
+    test('Intersecting a translated sphere with a ray', () => {
+        const r = ray(point(0, 0, -5), vector(0, 0, 1));
+        const s = sphere();
+        s.transform = translation(5, 0, 0);
+        const xs = intersect(s, r);
+        expect(xs.length).toEqual(0);
+    });
+});
