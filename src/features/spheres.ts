@@ -1,11 +1,12 @@
 import {Ray} from "./rays";
 import {dot, point, sub} from "./tuples";
+import {intersection, Intersection} from "./interesctions";
 
 export function sphere() {
     return 0;
 }
 
-export function intersects(sphere_object: number, ray_object: Ray) {
+export function intersect(sphere_object: number, ray_object: Ray): Intersection[] {
     const sphere_to_ray = sub(ray_object.origin, point(0, 0, 0));
 
     const a = dot(ray_object.direction, ray_object.direction);
@@ -18,5 +19,5 @@ export function intersects(sphere_object: number, ray_object: Ray) {
     }
     const t1 = (-b - Math.sqrt(discriminant)) / (2 * a);
     const t2 = (-b + Math.sqrt(discriminant)) / (2 * a);
-    return [t1, t2];
+    return [intersection(t1, sphere_object), intersection(t2, sphere_object)];
 }
