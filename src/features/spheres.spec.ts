@@ -1,11 +1,11 @@
 import {ray} from "./rays";
-import {point, vector} from "./tuples";
+import {CTuple} from "./tuples";
 import {intersect, sphere} from "./spheres";
-import {identity_matrix} from "./matrices";
+import {CMatrix} from "./matrices";
 import {scaling, translation} from "./transformations";
 
 test('A ray intersect a sphere at two points', () => {
-    const r = ray(point(0, 0, -5), vector(0, 0, 1));
+    const r = ray(CTuple.make_point(0, 0, -5), CTuple.make_vector(0, 0, 1));
     const s = sphere();
     const xs = intersect(s, r);
 
@@ -15,7 +15,7 @@ test('A ray intersect a sphere at two points', () => {
 });
 
 test('A ray intersect a sphere at a tangent', () => {
-    const r = ray(point(0, 1, -5), vector(0, 0, 1));
+    const r = ray(CTuple.make_point(0, 1, -5), CTuple.make_vector(0, 0, 1));
     const s = sphere();
     const xs = intersect(s, r);
 
@@ -25,7 +25,7 @@ test('A ray intersect a sphere at a tangent', () => {
 });
 
 test('A ray misses a sphere', () => {
-    const r = ray(point(0, 2, -5), vector(0, 0, 1));
+    const r = ray(CTuple.make_point(0, 2, -5), CTuple.make_vector(0, 0, 1));
     const s = sphere();
     const xs = intersect(s, r);
 
@@ -33,7 +33,7 @@ test('A ray misses a sphere', () => {
 });
 
 test('A ray originates inside a sphere', () => {
-    const r = ray(point(0, 0, 0), vector(0, 0, 1));
+    const r = ray(CTuple.make_point(0, 0, 0), CTuple.make_vector(0, 0, 1));
     const s = sphere();
     const xs = intersect(s, r);
 
@@ -43,7 +43,7 @@ test('A ray originates inside a sphere', () => {
 });
 
 test('A sphere is behind a ray', () => {
-    const r = ray(point(0, 0, 5), vector(0, 0, 1));
+    const r = ray(CTuple.make_point(0, 0, 5), CTuple.make_vector(0, 0, 1));
     const s = sphere();
     const xs = intersect(s, r);
 
@@ -53,7 +53,7 @@ test('A sphere is behind a ray', () => {
 });
 
 test('Intersect sets the object on the intersection', () => {
-    const r = ray(point(0, 0, -5), vector(0, 0, 1));
+    const r = ray(CTuple.make_point(0, 0, -5), CTuple.make_vector(0, 0, 1));
     const s = sphere();
     const xs = intersect(s, r);
 
@@ -66,7 +66,7 @@ test('Intersect sets the object on the intersection', () => {
 describe('Sphere transformations', () => {
     test('A spheres default transformation', () => {
         const s = sphere();
-        expect(s.transform).toStrictEqual(identity_matrix(4));
+        expect(s.transform).toStrictEqual(CMatrix.make_identity(4));
     });
 
     test('Changing a spheres transformation', () => {
@@ -77,7 +77,7 @@ describe('Sphere transformations', () => {
     });
 
     test('Intersecting a scaled sphere with a ray', () => {
-        const r = ray(point(0, 0, -5), vector(0, 0, 1));
+        const r = ray(CTuple.make_point(0, 0, -5), CTuple.make_vector(0, 0, 1));
         const s = sphere();
         s.transform = scaling(2, 2, 2);
         const xs = intersect(s, r);
@@ -87,7 +87,7 @@ describe('Sphere transformations', () => {
     });
 
     test('Intersecting a translated sphere with a ray', () => {
-        const r = ray(point(0, 0, -5), vector(0, 0, 1));
+        const r = ray(CTuple.make_point(0, 0, -5), CTuple.make_vector(0, 0, 1));
         const s = sphere();
         s.transform = translation(5, 0, 0);
         const xs = intersect(s, r);

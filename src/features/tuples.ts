@@ -17,14 +17,6 @@ export class CTuple {
         )
     }
 
-    static from_i(t: Tuple): CTuple {
-        return new CTuple(t.x, t.y, t.z, t.w);
-    }
-
-    to_i(): Tuple {
-        return tuple(this.x, this.y, this.z, this.w);
-    }
-
     static make_point(x: number, y: number, z: number) {
         return new CTuple(x, y, z, 1.0);
     }
@@ -122,98 +114,42 @@ export class CTuple {
     }
 }
 
-export interface Tuple {
-    x: number;
-    y: number;
-    z: number;
-    w: number;
-}
+export class CColor {
+    private components: number[];
 
-export interface Color {
-    red: number;
-    green: number;
-    blue: number;
-}
+    constructor(red: number, green: number, blue: number) {
+        this.components = [red, green, blue];
+    }
 
-export function tuple(x: number, y: number, z: number, w: number) {
-    return {x, y, z, w};
-}
+    static from_array(comp: number[]): CColor {
+        return new CColor(comp[0], comp[1], comp[2]);
+    }
 
-export function isPoint(tuple: Tuple) {
-    const c = new CTuple(tuple.x, tuple.y, tuple.z, tuple.w);
-    return c.isPoint();
-}
+    get red(): number {
+        return this.components[0];
+    }
 
-export function isVector(tuple: Tuple) {
-    const c = new CTuple(tuple.x, tuple.y, tuple.z, tuple.w);
-    return c.isVector();
-}
+    get green(): number {
+        return this.components[1];
+    }
 
-export function point(x: number, y: number, z: number) {
-    return {x, y, z, w: 1.0};
-}
+    get blue(): number {
+        return this.components[2];
+    }
 
-export function vector(x: number, y: number, z: number) {
-    return {x, y, z, w: 0.0};
-}
+    public plus(c: CColor): CColor {
+        return CColor.from_array(this.components.map((n, idx) => n + c.components[idx]));
+    }
 
-export function sum(...tuples: Tuple[]): Tuple {
-    return tuples
-        .reduce((acc: CTuple, n) => acc.plus(CTuple.from_i(n)), new CTuple(0, 0, 0, 0))
-        .to_i();
-}
+    public minus(c: CColor): CColor {
+        return CColor.from_array(this.components.map((n, idx) => n - c.components[idx]));
+    }
 
-export function sub(a: Tuple, b: Tuple): Tuple {
-    return CTuple.from_i(a).minus(CTuple.from_i(b)).to_i();
-}
+    public mult(value: number): CColor {
+        return CColor.from_array(this.components.map((n) => n * value));
+    }
 
-export function neg(a: Tuple): Tuple {
-    const c = new CTuple(a.x, a.y, a.z, a.w).neg();
-    return tuple(c.x, c.y, c.z, c.w);
-}
-
-export function mult(a: Tuple, scalar: number): Tuple {
-    return tuple(scalar * a.x, scalar * a.y, scalar * a.z, scalar * a.w);
-}
-
-export function div(a: Tuple, scalar: number): Tuple {
-    return tuple(a.x / scalar, a.y / scalar, a.z / scalar, a.w / scalar);
-}
-
-export function magnitude(v: Tuple): number {
-    const c = new CTuple(v.x, v.y, v.z, v.w);
-    return c.magnitude();
-}
-
-export function normalize(v: Tuple): Tuple {
-    const c = CTuple.from_i(v).normalize();
-    return c.to_i();
-}
-
-export function dot(a: Tuple, b: Tuple): number {
-    return CTuple.from_i(a).dot(CTuple.from_i(b));
-}
-
-export function cross(a: Tuple, b: Tuple): Tuple {
-    return CTuple.from_i(a).cross(CTuple.from_i(b)).to_i();
-}
-
-export function color(red: number, green: number, blue: number): Color {
-    return {red, green, blue};
-}
-
-export function sum_color(c1: Color, c2: Color): Color {
-    return color(c1.red + c2.red, c1.green + c2.green, c1.blue + c2.blue);
-}
-
-export function sub_color(c1: Color, c2: Color): Color {
-    return color(c1.red - c2.red, c1.green - c2.green, c1.blue - c2.blue);
-}
-
-export function mult_color(c: Color, scalar: number): Color {
-    return color(c.red * scalar, c.green * scalar, c.blue * scalar);
-}
-
-export function hadamard_product(c1: Color, c2: Color): Color {
-    return color(c1.red * c2.red, c1.green * c2.green, c1.blue * c2.blue);
+    public hadamard_product(c: CColor): CColor {
+        return CColor.from_array(this.components.map((n, idx) => n * c.components[idx]));
+    }
 }

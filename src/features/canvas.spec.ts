@@ -1,9 +1,9 @@
 import {canvas, canvas_to_ppm, pixel_at, write_pixel} from './canvas';
-import {color} from "./tuples";
+import {CColor} from "./tuples";
 
 test('Creating a canvas', () => {
     const c = canvas(10, 20);
-    const black = color(0, 0, 0);
+    const black = new CColor(0, 0, 0);
     expect(c.width).toBe(10);
     expect(c.height).toBe(20);
     expect(c.data.length).toBe(10);
@@ -17,7 +17,7 @@ test('Creating a canvas', () => {
 
 test('Writing pixels to a canvas', () => {
     const c = canvas(10, 20);
-    const red = color(1, 0, 0);
+    const red = new CColor(1, 0, 0);
     write_pixel(c, 2, 3, red);
     expect(pixel_at(c, 2, 3)).toStrictEqual(red);
 });
@@ -42,9 +42,9 @@ b\n`;
 
 test('Constructing the PPM pixel data', () => {
     const c = canvas(5, 3);
-    const c1 = color(1.5, 0, 0);
-    const c2 = color(0, 0.5, 0);
-    const c3 = color(-0.5, 0, 1);
+    const c1 = new CColor(1.5, 0, 0);
+    const c2 = new CColor(0, 0.5, 0);
+    const c3 = new CColor(-0.5, 0, 1);
     write_pixel(c, 0, 0, c1);
     write_pixel(c, 2, 1, c2);
     write_pixel(c, 4, 2, c3);

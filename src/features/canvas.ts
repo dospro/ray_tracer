@@ -1,10 +1,10 @@
-import {color, Color} from "./tuples";
+import {CColor} from "./tuples";
 
 
 interface Canvas {
     width: number;
     height: number;
-    data: Array<Array<Color>>;
+    data: Array<Array<CColor>>;
 
 }
 
@@ -12,17 +12,17 @@ export function canvas(width: number, height: number): Canvas {
     const data = Array(width);
     for (let i = 0; i < width; ++i) {
         data[i] = Array(height);
-        const c = color(0, 0, 0);
+        const c = new CColor(0, 0, 0);
         data[i].fill(c);
     }
     return {width, height, data};
 }
 
-export function write_pixel(c: Canvas, x: number, y: number, color: Color) {
+export function write_pixel(c: Canvas, x: number, y: number, color: CColor) {
     c.data[x][y] = color;
 }
 
-export function pixel_at(c: Canvas, x: number, y: number): Color {
+export function pixel_at(c: Canvas, x: number, y: number): CColor {
     return c.data[x][y];
 }
 

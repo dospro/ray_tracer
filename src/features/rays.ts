@@ -1,22 +1,22 @@
-import {mult, sum, Tuple} from "./tuples";
-import {Matrix, matrix_mult_tuple} from "./matrices";
+import {CTuple} from "./tuples";
+import {CMatrix} from "./matrices";
 
 export interface Ray {
-    origin: Tuple,
-    direction: Tuple,
+    origin: CTuple,
+    direction: CTuple,
 }
 
-export function ray(origin: Tuple, direction: Tuple): Ray {
+export function ray(origin: CTuple, direction: CTuple): Ray {
     return {origin, direction};
 }
 
-export function position(r: Ray, t: number): Tuple {
-    return sum(r.origin, mult(r.direction, t));
+export function position(r: Ray, t: number): CTuple {
+    return r.origin.plus(r.direction.mult(t));
 }
 
-export function transform(r: Ray, m: Matrix): Ray {
+export function transform(r: Ray, m: CMatrix): Ray {
     return {
-        origin: matrix_mult_tuple(m, r.origin),
-        direction: matrix_mult_tuple(m, r.direction)
+        origin: m.mult_tuple(r.origin),
+        direction: m.mult_tuple(r.direction)
     };
 }

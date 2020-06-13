@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 
-import {color, mult, normalize, point, sub, sum, Tuple, vector} from "./features/tuples";
+import {CColor, CTuple} from "./features/tuples";
 import {canvas, canvas_to_ppm, write_pixel} from "./features/canvas";
 import {intersect, sphere} from "./features/spheres";
 import {translation} from "./features/transformations";
@@ -8,37 +8,37 @@ import {ray} from "./features/rays";
 import {hit} from "./features/interesctions";
 
 interface Projectile {
-    position: Tuple;
-    velocity: Tuple;
+    position: CTuple;
+    velocity: CTuple;
 }
 
 interface Environment {
-    gravity: Tuple;
-    wind: Tuple;
+    gravity: CTuple;
+    wind: CTuple;
 }
 
 function tick(env: Environment, proj: Projectile): Projectile {
     return {
-        position: sum(proj.position, proj.velocity),
-        velocity: sum(proj.velocity, env.gravity, env.wind)
+        position: proj.position.plus(proj.velocity),
+        velocity: proj.velocity.plus(env.gravity).plus(env.wind),
     };
 }
 
 function projectileExample() {
     let p: Projectile = {
-        position: point(0, 1, 0),
-        velocity: mult(normalize(vector(1, 1.8, 0)), 11.25),
+        position: CTuple.make_point(0, 1, 0),
+        velocity: CTuple.make_vector(1, 1.8, 0).normalize().mult(11.25),
     };
 
     let e: Environment = {
-        gravity: vector(0, -0.1, 0),
-        wind: vector(-0.01, 0, 0),
+        gravity: CTuple.make_vector(0, -0.1, 0),
+        wind: CTuple.make_vector(-0.01, 0, 0),
     };
 
     let c = canvas(900, 550);
 
     while (p.position.y > 0) {
-        write_pixel(c, Math.round(p.position.x), Math.round(p.position.y), color(1, 0, 0));
+        write_pixel(c, Math.round(p.position.x), Math.round(p.position.y), new CColor(1, 0, 0));
         p = tick(e, p);
     }
 
@@ -54,12 +54,12 @@ function projectileExample() {
 
 function circleExample() {
     let c = canvas(800, 800);
-    const col = color(1, 0, 0);
+    const col = new CColor(1, 0, 0);
 
     const shape = sphere();
     shape.transform = translation(0, 0, 0);
 
-    const ray_origin = point(0, 0, -5);
+    const ray_origin = CTuple.make_point(0, 0, -5);
     const wall_z = 10;
     const wall_size = 7.0;
 
@@ -70,8 +70,8 @@ function circleExample() {
         const world_y = half - pixel_size * y;
         for (let x = 0; x < 800; x++) {
             const world_x = -half + pixel_size * x;
-            const position = point(world_x, world_y, wall_z);
-            const r = ray(ray_origin, normalize(sub(position, ray_origin)));
+            const position = CTuple.make_point(world_x, world_y, wall_z);
+            const r = ray(ray_origin, position.minus(ray_origin).normalize());
             const xs = intersect(shape, r);
 
             if (hit(xs)) {

@@ -1,4 +1,5 @@
 import {
+    CMatrix,
     cofactor,
     determinant,
     identity_matrix,
@@ -6,11 +7,10 @@ import {
     matrix,
     matrix_equals,
     matrix_mult,
-    matrix_mult_tuple,
     matrix_value, minor, submatrix,
     transpose
 } from "./matrices";
-import {tuple} from "./tuples";
+import {CTuple} from "./tuples";
 
 test('Constructing and inspecting a 4x4 matrix', () => {
     const m = matrix(4,
@@ -110,15 +110,16 @@ test('Multiplying two matrices', () => {
 });
 
 test('A matrix multiplied by a tuple', () => {
-    const m = matrix(4,
-        1, 2, 3, 4,
-        2, 4, 4, 2,
-        8, 6, 4, 1,
-        0, 0, 0, 1
+    const m = new CMatrix(4, [
+            1, 2, 3, 4,
+            2, 4, 4, 2,
+            8, 6, 4, 1,
+            0, 0, 0, 1
+        ]
     );
-    const t = tuple(1, 2, 3, 1);
-    const expected = tuple(18, 24, 33, 1);
-    expect(matrix_mult_tuple(m, t)).toStrictEqual(expected);
+    const t = new CTuple(1, 2, 3, 1);
+    const expected = new CTuple(18, 24, 33, 1);
+    expect(m.mult_tuple(t)).toStrictEqual(expected);
 });
 
 test('Multyplying a matrix by the identity matrix', () => {
@@ -132,8 +133,8 @@ test('Multyplying a matrix by the identity matrix', () => {
 });
 
 test('Multiplying the identity matrix by a tuple', () => {
-    const t = tuple(1, 2, 3, 4);
-    expect(matrix_mult_tuple(identity_matrix(4), t)).toStrictEqual(t);
+    const t = new CTuple(1, 2, 3, 4);
+    expect(CMatrix.make_identity(4).mult_tuple(t)).toStrictEqual(t);
 });
 
 test('Transposing a matrix', () => {

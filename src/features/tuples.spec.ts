@@ -1,10 +1,6 @@
 import {
     CTuple,
-    color,
-    sum_color,
-    sub_color,
-    mult_color,
-    hadamard_product
+    CColor,
 } from './tuples';
 
 describe('Test tuples', () => {
@@ -142,38 +138,38 @@ describe('Test tuples', () => {
 
 describe('Test colors', () => {
     test('Colors are (red, green, blue) tuples', () => {
-        const c = color(-0.5, 0.4, 1.7);
+        const c = new CColor(-0.5, 0.4, 1.7);
         expect(c.red).toBe(-0.5);
         expect(c.green).toBe(0.4);
         expect(c.blue).toBe(1.7);
     });
 
     test('Adding colors', () => {
-        const c1 = color(0.9, 0.6, 0.75);
-        const c2 = color(0.7, 0.1, 0.25);
-        expect(sum_color(c1, c2)).toStrictEqual(color(1.6, 0.7, 1.0));
+        const c1 = new CColor(0.9, 0.6, 0.75);
+        const c2 = new CColor(0.7, 0.1, 0.25);
+        expect(c1.plus(c2)).toStrictEqual(new CColor(1.6, 0.7, 1.0));
     });
 
     test('Substracting colors', () => {
-        const c1 = color(0.9, 0.6, 0.75);
-        const c2 = color(0.7, 0.1, 0.25);
-        const result = sub_color(c1, c2);
-        const expected = color(0.2, 0.5, 0.5);
+        const c1 = new CColor(0.9, 0.6, 0.75);
+        const c2 = new CColor(0.7, 0.1, 0.25);
+        const result = c1.minus(c2);
+        const expected = new CColor(0.2, 0.5, 0.5);
         expect(result.red).toBeCloseTo(expected.red, 5);
         expect(result.green).toBeCloseTo(expected.green, 5);
         expect(result.blue).toBeCloseTo(expected.blue, 5);
     });
 
     test('Multiplying a color by a scalar', () => {
-        const c = color(0.2, 0.3, 0.4);
-        expect(mult_color(c, 2)).toStrictEqual(color(0.4, 0.6, 0.8));
+        const c = new CColor(0.2, 0.3, 0.4);
+        expect(c.mult(2)).toStrictEqual(new CColor(0.4, 0.6, 0.8));
     });
 
     test('Multiplying colors', () => {
-        const c1 = color(1, 0.2, 0.4);
-        const c2 = color(0.9, 1, 0.1);
-        const result = hadamard_product(c1, c2);
-        const expected = color(0.9, 0.2, 0.04);
+        const c1 = new CColor(1, 0.2, 0.4);
+        const c2 = new CColor(0.9, 1, 0.1);
+        const result = c1.hadamard_product(c2);
+        const expected = new CColor(0.9, 0.2, 0.04);
         expect(result.red).toBeCloseTo(expected.red, 5);
         expect(result.green).toBeCloseTo(expected.green, 5);
         expect(result.blue).toBeCloseTo(expected.blue, 5);
