@@ -25,6 +25,10 @@ export class CTuple {
         return new CTuple(x, y, z, 0.0);
     }
 
+    static origin(): CTuple {
+        return CTuple.make_point(0, 0, 0);
+    }
+
     get x(): number {
         return this.components[0];
     }
@@ -111,6 +115,10 @@ export class CTuple {
         const y = this.z * other.x - this.x * other.z;
         const z = this.x * other.y - this.y * other.x;
         return new CTuple(x, y, z, 0.0);
+    }
+
+    public reflect(n: CTuple): CTuple {
+        return this.minus(n.mult(2 * this.dot(n)));
     }
 }
 

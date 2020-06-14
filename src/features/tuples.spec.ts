@@ -136,6 +136,26 @@ describe('Test tuples', () => {
     });
 });
 
+describe('Test reflections', () => {
+    test('Reflecting a vector approaching at 45 degree', () => {
+        const v = CTuple.make_vector(1, -1, 0);
+        const n = CTuple.make_vector(0, 1, 0);
+        const r = v.reflect(n);
+        expect(r).toStrictEqual(CTuple.make_vector(1, 1, 0));
+    });
+
+    test('Reflecting a vector off a slanted surface', () => {
+        const v = CTuple.make_vector(0, -1, 0);
+        const n = CTuple.make_vector(Math.sqrt(2) / 2, Math.sqrt(2) / 2, 0);
+        const r = v.reflect(n);
+        const expected = CTuple.make_vector(1, 0, 0);
+        expect(r.x).toBeCloseTo(expected.x, 5);
+        expect(r.y).toBeCloseTo(expected.y, 5);
+        expect(r.z).toBeCloseTo(expected.z, 5);
+        expect(r.w).toBeCloseTo(expected.w, 5);
+    });
+});
+
 describe('Test colors', () => {
     test('Colors are (red, green, blue) tuples', () => {
         const c = new CColor(-0.5, 0.4, 1.7);
