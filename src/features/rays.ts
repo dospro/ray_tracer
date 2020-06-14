@@ -1,22 +1,28 @@
 import {CTuple} from "./tuples";
 import {CMatrix} from "./matrices";
 
-export interface Ray {
-    origin: CTuple,
-    direction: CTuple,
-}
+export class CRay {
+    private _origin: CTuple;
+    private _direction: CTuple;
 
-export function ray(origin: CTuple, direction: CTuple): Ray {
-    return {origin, direction};
-}
+    constructor(origin: CTuple, direction: CTuple) {
+        this._origin = origin;
+        this._direction = direction;
+    }
 
-export function position(r: Ray, t: number): CTuple {
-    return r.origin.plus(r.direction.mult(t));
-}
+    get origin(): CTuple {
+        return this._origin;
+    }
 
-export function transform(r: Ray, m: CMatrix): Ray {
-    return {
-        origin: m.mult_tuple(r.origin),
-        direction: m.mult_tuple(r.direction)
-    };
+    get direction(): CTuple {
+        return this._direction;
+    }
+
+    public position(t: number): CTuple {
+        return this._origin.plus(this._direction.mult(t));
+    }
+
+    public transform(m: CMatrix): CRay {
+        return new CRay(m.mult_tuple(this._origin), m.mult_tuple(this._direction));
+    }
 }

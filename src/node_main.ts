@@ -2,9 +2,9 @@ import * as fs from 'fs';
 
 import {CColor, CTuple} from "./features/tuples";
 import {canvas, canvas_to_ppm, write_pixel} from "./features/canvas";
-import {intersect, sphere} from "./features/spheres";
+import {CSphere} from "./features/spheres";
 import {translation} from "./features/transformations";
-import {ray} from "./features/rays";
+import {CRay} from "./features/rays";
 import {hit} from "./features/interesctions";
 
 interface Projectile {
@@ -56,7 +56,7 @@ function circleExample() {
     let c = canvas(800, 800);
     const col = new CColor(1, 0, 0);
 
-    const shape = sphere();
+    const shape = new CSphere();
     shape.transform = translation(0, 0, 0);
 
     const ray_origin = CTuple.make_point(0, 0, -5);
@@ -71,8 +71,8 @@ function circleExample() {
         for (let x = 0; x < 800; x++) {
             const world_x = -half + pixel_size * x;
             const position = CTuple.make_point(world_x, world_y, wall_z);
-            const r = ray(ray_origin, position.minus(ray_origin).normalize());
-            const xs = intersect(shape, r);
+            const r = new CRay(ray_origin, position.minus(ray_origin).normalize());
+            const xs = shape.intersect(r);
 
             if (hit(xs)) {
                 write_pixel(c, x, y, col);

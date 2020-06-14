@@ -1,7 +1,7 @@
 import {CColor, CTuple} from "./features/tuples";
 import {rotation_z, translation} from "./features/transformations";
-import {intersect, sphere} from "./features/spheres";
-import {ray} from "./features/rays";
+import {CSphere} from "./features/spheres";
+import {CRay} from "./features/rays";
 import {hit} from "./features/interesctions";
 
 
@@ -67,7 +67,7 @@ function circleExample(canvasElement: any) {
     const context = canvasElement.getContext('2d');
     const col = new CColor(1, 0, 0);
 
-    const shape = sphere();
+    const shape = new CSphere();
     shape.transform = translation(0, 0, 0);
 
     const ray_origin = CTuple.make_point(0, 0, -5);
@@ -82,8 +82,8 @@ function circleExample(canvasElement: any) {
         for (let x = 0; x < 800; x++) {
             const world_x = -half + pixel_size * x;
             const position = CTuple.make_point(world_x, world_y, wall_z);
-            const r = ray(ray_origin, position.minus(ray_origin).normalize());
-            const xs = intersect(shape, r);
+            const r = new CRay(ray_origin, position.minus(ray_origin).normalize());
+            const xs = shape.intersect(r);
 
             if (hit(xs)) {
                 context.fillStyle = "red";
