@@ -1,15 +1,15 @@
-export class CTuple {
+export class Tuple {
     private components: number[];
 
     constructor(x: number, y: number, z: number, w: number) {
         this.components = [x, y, z, w];
     }
 
-    static from_array(components: number[]): CTuple {
+    static from_array(components: number[]): Tuple {
         if (components.length != 4) {
             throw "Only supports 4 components";
         }
-        return new CTuple(
+        return new Tuple(
             components[0],
             components[1],
             components[2],
@@ -18,15 +18,15 @@ export class CTuple {
     }
 
     static make_point(x: number, y: number, z: number) {
-        return new CTuple(x, y, z, 1.0);
+        return new Tuple(x, y, z, 1.0);
     }
 
     static make_vector(x: number, y: number, z: number) {
-        return new CTuple(x, y, z, 0.0);
+        return new Tuple(x, y, z, 0.0);
     }
 
-    static origin(): CTuple {
-        return CTuple.make_point(0, 0, 0);
+    static origin(): Tuple {
+        return Tuple.make_point(0, 0, 0);
     }
 
     get x(): number {
@@ -69,55 +69,55 @@ export class CTuple {
         return this.components[3] == 0.0;
     }
 
-    public plus(CTuple_operand: CTuple): CTuple {
-        return CTuple.from_array(this.components.map(
+    public plus(CTuple_operand: Tuple): Tuple {
+        return Tuple.from_array(this.components.map(
             (component, idx) => (
                 component + CTuple_operand.components[idx]
             )
         ));
     }
 
-    public minus(CTuple_operand: CTuple): CTuple {
-        return CTuple.from_array(this.components.map(
+    public minus(CTuple_operand: Tuple): Tuple {
+        return Tuple.from_array(this.components.map(
             (component, idx) => (
                 component - CTuple_operand.components[idx]
             )
         ));
     }
 
-    public neg(): CTuple {
-        return CTuple.from_array(this.components.map((c) => -c));
+    public neg(): Tuple {
+        return Tuple.from_array(this.components.map((c) => -c));
     }
 
-    public mult(scalar: number): CTuple {
-        return CTuple.from_array(this.components.map((c) => c * scalar));
+    public mult(scalar: number): Tuple {
+        return Tuple.from_array(this.components.map((c) => c * scalar));
     }
 
-    public div(scalar: number): CTuple {
-        return CTuple.from_array(this.components.map((c) => c / scalar));
+    public div(scalar: number): Tuple {
+        return Tuple.from_array(this.components.map((c) => c / scalar));
     }
 
     public magnitude(): number {
         return Math.sqrt(this.components.reduce((acc, n) => acc + n * n, 0));
     }
 
-    public normalize(): CTuple {
+    public normalize(): Tuple {
         const m = this.magnitude();
-        return CTuple.from_array(this.components.map((c) => c / m));
+        return Tuple.from_array(this.components.map((c) => c / m));
     }
 
-    public dot(other: CTuple): number {
+    public dot(other: Tuple): number {
         return this.components.reduce((acc, c, idx) => acc + c * other.components[idx], 0);
     }
 
-    public cross(other: CTuple): CTuple {
+    public cross(other: Tuple): Tuple {
         const x = this.y * other.z - this.z * other.y;
         const y = this.z * other.x - this.x * other.z;
         const z = this.x * other.y - this.y * other.x;
-        return new CTuple(x, y, z, 0.0);
+        return new Tuple(x, y, z, 0.0);
     }
 
-    public reflect(n: CTuple): CTuple {
+    public reflect(n: Tuple): Tuple {
         return this.minus(n.mult(2 * this.dot(n)));
     }
 }

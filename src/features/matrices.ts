@@ -1,4 +1,4 @@
-import {CTuple} from "./tuples";
+import {Tuple} from "./tuples";
 
 export class CMatrix {
 
@@ -68,7 +68,7 @@ export class CMatrix {
         return new CMatrix(this.dim, result);
     }
 
-    public mult_tuple(t: CTuple): CTuple {
+    public mult_tuple(t: Tuple): Tuple {
         let result: Array<number> = [];
         for (let row = 0; row < this.dim; ++row) {
             let value = 0;
@@ -78,7 +78,7 @@ export class CMatrix {
                 this.data[row * this.dim + 3] * t.w;
             result.push(value);
         }
-        return CTuple.from_array(result);
+        return Tuple.from_array(result);
     }
 
     public transpose(): CMatrix {
@@ -175,7 +175,7 @@ export function matrix_mult(m1: Matrix, m2: Matrix): Matrix {
         .to_i();
 }
 
-export function matrix_mult_tuple(m: Matrix, t: CTuple): CTuple {
+export function matrix_mult_tuple(m: Matrix, t: Tuple): Tuple {
     return CMatrix
         .from_i(m)
         .mult_tuple(t);

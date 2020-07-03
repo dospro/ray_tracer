@@ -1,9 +1,9 @@
-import {CSphere} from "./spheres";
+import {Sphere} from "./spheres";
 import {hit, intersection, intersections} from "./interesctions";
 
 describe('Intersections', () => {
     test('An interesction encapsulates t and object', () => {
-        const s = new CSphere();
+        const s = new Sphere();
         const i = intersection(3.5, s);
 
         expect(i.t).toEqual(3.5);
@@ -11,7 +11,7 @@ describe('Intersections', () => {
     });
 
     test('Aggregating intersections', () => {
-        const s = new CSphere();
+        const s = new Sphere();
         const i1 = intersection(1, s);
         const i2 = intersection(2, s);
         const xs = intersections(i1, i2);
@@ -24,7 +24,7 @@ describe('Intersections', () => {
 
 describe('Hits', () => {
     test('The hit, when all intersections have positive t', () => {
-        const s = new CSphere();
+        const s = new Sphere();
         const i1 = intersection(1, s);
         const i2 = intersection(2, s);
         const xs = intersections(i2, i1);
@@ -34,7 +34,7 @@ describe('Hits', () => {
     });
 
     test('The hit, when some intersections have negative t', () => {
-        const s = new CSphere();
+        const s = new Sphere();
         const i1 = intersection(-1, s);
         const i2 = intersection(1, s);
         const xs = intersections(i2, i1);
@@ -44,7 +44,7 @@ describe('Hits', () => {
     });
 
     test('The hit, when all intersections have negative t', () => {
-        const s = new CSphere();
+        const s = new Sphere();
         const i1 = intersection(-2, s);
         const i2 = intersection(-1, s);
         const xs = intersections(i2, i1);
@@ -54,7 +54,7 @@ describe('Hits', () => {
     });
 
     test('The hit is always the lowest nonegative interesction', () => {
-        const s= new CSphere();
+        const s= new Sphere();
         const i1 = intersection(5, s);
         const i2 = intersection(7, s);
         const i3 = intersection(-3, s);

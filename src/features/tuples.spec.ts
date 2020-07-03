@@ -1,11 +1,11 @@
 import {
-    CTuple,
+    Tuple,
     CColor,
 } from './tuples';
 
 describe('Test tuples', () => {
     test('A tuple with w=1.0 is a point', () => {
-        const result = new CTuple(4.3, -4.2, 3.1, 1.0);
+        const result = new Tuple(4.3, -4.2, 3.1, 1.0);
         expect(result.x).toBe(4.3);
         expect(result.y).toBe(-4.2);
         expect(result.z).toBe(3.1);
@@ -16,7 +16,7 @@ describe('Test tuples', () => {
     });
 
     test('A tuple with w=0 is a vector', () => {
-        const result = new CTuple(4.3, -4.2, 3.1, 0.0);
+        const result = new Tuple(4.3, -4.2, 3.1, 0.0);
         expect(result.x).toBe(4.3);
         expect(result.y).toBe(-4.2);
         expect(result.z).toBe(3.1);
@@ -27,89 +27,89 @@ describe('Test tuples', () => {
     });
 
     test('point creates tuples with w=1', () => {
-        const p = CTuple.make_point(4, -4, 3);
-        expect(p).toStrictEqual(new CTuple(4, -4, 3, 1));
+        const p = Tuple.make_point(4, -4, 3);
+        expect(p).toStrictEqual(new Tuple(4, -4, 3, 1));
     });
 
     test('vector creates tuples with w=0', () => {
-        const v = CTuple.make_vector(4, -4, 3);
-        expect(v).toStrictEqual(new CTuple(4, -4, 3, 0));
+        const v = Tuple.make_vector(4, -4, 3);
+        expect(v).toStrictEqual(new Tuple(4, -4, 3, 0));
     });
 
 
     test('Adding two tuples', () => {
-        const a1 = new CTuple(3, -2, 5, 1);
-        const a2 = new CTuple(-2, 3, 1, 0);
-        expect(a1.plus(a2)).toStrictEqual(new CTuple(1, 1, 6, 1));
+        const a1 = new Tuple(3, -2, 5, 1);
+        const a2 = new Tuple(-2, 3, 1, 0);
+        expect(a1.plus(a2)).toStrictEqual(new Tuple(1, 1, 6, 1));
     });
 
     test('Substracting two points', () => {
-        const p1 = CTuple.make_point(3, 2, 1);
-        const p2 = CTuple.make_point(5, 6, 7);
-        expect(p1.minus(p2)).toStrictEqual(CTuple.make_vector(-2, -4, -6));
+        const p1 = Tuple.make_point(3, 2, 1);
+        const p2 = Tuple.make_point(5, 6, 7);
+        expect(p1.minus(p2)).toStrictEqual(Tuple.make_vector(-2, -4, -6));
     });
 
 
     test('Substracting two vectors', () => {
-        const v1 = CTuple.make_vector(3, 2, 1);
-        const v2 = CTuple.make_vector(5, 6, 7);
-        expect(v1.minus(v2)).toStrictEqual(CTuple.make_vector(-2, -4, -6));
+        const v1 = Tuple.make_vector(3, 2, 1);
+        const v2 = Tuple.make_vector(5, 6, 7);
+        expect(v1.minus(v2)).toStrictEqual(Tuple.make_vector(-2, -4, -6));
     });
 
     test('Negating a tuple', () => {
-        const a = new CTuple(1, -2, 3, -4);
-        expect(a.neg()).toStrictEqual(new CTuple(-1, 2, -3, 4));
+        const a = new Tuple(1, -2, 3, -4);
+        expect(a.neg()).toStrictEqual(new Tuple(-1, 2, -3, 4));
     });
 
     test('Multiplying a tuple by a scalar', () => {
-        const a = new CTuple(1, -2, 3, -4);
-        expect(a.mult(3.5)).toStrictEqual(new CTuple(3.5, -7, 10.5, -14));
+        const a = new Tuple(1, -2, 3, -4);
+        expect(a.mult(3.5)).toStrictEqual(new Tuple(3.5, -7, 10.5, -14));
     });
 
     test('Multiplying a tuple by a fraction', () => {
-        const a = new CTuple(1, -2, 3, -4);
-        expect(a.mult(0.5)).toStrictEqual(new CTuple(0.5, -1, 1.5, -2));
+        const a = new Tuple(1, -2, 3, -4);
+        expect(a.mult(0.5)).toStrictEqual(new Tuple(0.5, -1, 1.5, -2));
     });
 
     test('Dividing a tuple by a scalar', () => {
-        const a = new CTuple(1, -2, 3, -4);
-        expect(a.div(2)).toStrictEqual(new CTuple(0.5, -1, 1.5, -2));
+        const a = new Tuple(1, -2, 3, -4);
+        expect(a.div(2)).toStrictEqual(new Tuple(0.5, -1, 1.5, -2));
     });
 
     test('Computing magnitude of vector(1, 0, 0)', () => {
-        const v = CTuple.make_vector(1, 0, 0);
+        const v = Tuple.make_vector(1, 0, 0);
         expect(v.magnitude()).toBe(1);
     });
 
     test('Computing magnitude of vector(0, 1, 0)', () => {
-        const v = CTuple.make_vector(0, 1, 0);
+        const v = Tuple.make_vector(0, 1, 0);
         expect(v.magnitude()).toBe(1);
     });
 
     test('Computing magnitude of vector(0, 0, 1)', () => {
-        const v = CTuple.make_vector(0, 0, 1);
+        const v = Tuple.make_vector(0, 0, 1);
         expect(v.magnitude()).toBe(1);
     });
 
     test('Computing magnitude of vector(1, 2, 3)', () => {
-        const v = CTuple.make_vector(1, 2, 3);
+        const v = Tuple.make_vector(1, 2, 3);
         expect(v.magnitude()).toBe(Math.sqrt(14));
     });
 
     test('Computing magnitude of vector(-1, -2, -3)', () => {
-        const v = CTuple.make_vector(-1, -2, -3);
+        const v = Tuple.make_vector(-1, -2, -3);
         expect(v.magnitude()).toBe(Math.sqrt(14));
     });
 
     test('Normalizing vector(4, 0, 0) gives (1,0,0)', () => {
-        const v = CTuple.make_vector(4, 0, 0);
-        expect(v.normalize()).toStrictEqual(CTuple.make_vector(1, 0, 0));
+        const v = Tuple.make_vector(4, 0, 0);
+        expect(v.normalize()).toStrictEqual(Tuple.make_vector(1, 0, 0));
     });
 
     test('Normalizing vector(1,2,3)', () => {
-        const v = CTuple.make_vector(1, 2, 3);
+        const v = Tuple.make_vector(1, 2, 3);
         const result = v.normalize();
-        const expected = CTuple.make_vector(0.26726, 0.53452, 0.80178);
+        const expected = Tuple.make_vector(0.26726, 0.53452, 0.80178);
         expect(result.x).toBeCloseTo(expected.x, 5);
         expect(result.y).toBeCloseTo(expected.y, 5);
         expect(result.z).toBeCloseTo(expected.z, 5);
@@ -117,38 +117,38 @@ describe('Test tuples', () => {
     });
 
     test('The magnitude of a normalized vector', () => {
-        const v = CTuple.make_vector(1, 2, 3);
+        const v = Tuple.make_vector(1, 2, 3);
         const n = v.normalize();
         expect(n.magnitude()).toBe(1);
     });
 
     test('The dot product of two tuples', () => {
-        const a = CTuple.make_vector(1, 2, 3);
-        const b = CTuple.make_vector(2, 3, 4);
+        const a = Tuple.make_vector(1, 2, 3);
+        const b = Tuple.make_vector(2, 3, 4);
         expect(a.dot(b)).toBe(20);
     });
 
     test('The cross product of two vectors', () => {
-        const a = CTuple.make_vector(1, 2, 3);
-        const b = CTuple.make_vector(2, 3, 4);
-        expect(a.cross(b)).toStrictEqual(CTuple.make_vector(-1, 2, -1));
-        expect(b.cross(a)).toStrictEqual(CTuple.make_vector(1, -2, 1));
+        const a = Tuple.make_vector(1, 2, 3);
+        const b = Tuple.make_vector(2, 3, 4);
+        expect(a.cross(b)).toStrictEqual(Tuple.make_vector(-1, 2, -1));
+        expect(b.cross(a)).toStrictEqual(Tuple.make_vector(1, -2, 1));
     });
 });
 
 describe('Test reflections', () => {
     test('Reflecting a vector approaching at 45 degree', () => {
-        const v = CTuple.make_vector(1, -1, 0);
-        const n = CTuple.make_vector(0, 1, 0);
+        const v = Tuple.make_vector(1, -1, 0);
+        const n = Tuple.make_vector(0, 1, 0);
         const r = v.reflect(n);
-        expect(r).toStrictEqual(CTuple.make_vector(1, 1, 0));
+        expect(r).toStrictEqual(Tuple.make_vector(1, 1, 0));
     });
 
     test('Reflecting a vector off a slanted surface', () => {
-        const v = CTuple.make_vector(0, -1, 0);
-        const n = CTuple.make_vector(Math.sqrt(2) / 2, Math.sqrt(2) / 2, 0);
+        const v = Tuple.make_vector(0, -1, 0);
+        const n = Tuple.make_vector(Math.sqrt(2) / 2, Math.sqrt(2) / 2, 0);
         const r = v.reflect(n);
-        const expected = CTuple.make_vector(1, 0, 0);
+        const expected = Tuple.make_vector(1, 0, 0);
         expect(r.x).toBeCloseTo(expected.x, 5);
         expect(r.y).toBeCloseTo(expected.y, 5);
         expect(r.z).toBeCloseTo(expected.z, 5);

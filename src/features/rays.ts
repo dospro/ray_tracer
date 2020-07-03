@@ -1,24 +1,24 @@
-import {CTuple} from "./tuples";
+import {Tuple} from "./tuples";
 import {CMatrix} from "./matrices";
 
 export class CRay {
-    private _origin: CTuple;
-    private _direction: CTuple;
+    private _origin: Tuple;
+    private _direction: Tuple;
 
-    constructor(origin: CTuple, direction: CTuple) {
+    constructor(origin: Tuple, direction: Tuple) {
         this._origin = origin;
         this._direction = direction;
     }
 
-    get origin(): CTuple {
+    get origin(): Tuple {
         return this._origin;
     }
 
-    get direction(): CTuple {
+    get direction(): Tuple {
         return this._direction;
     }
 
-    public position(t: number): CTuple {
+    public position(t: number): Tuple {
         return this._origin.plus(this._direction.mult(t));
     }
 
